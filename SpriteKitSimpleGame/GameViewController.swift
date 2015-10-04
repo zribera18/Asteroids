@@ -28,7 +28,7 @@ class GameViewController: UIViewController {
         let height = UIScreen.mainScreen().bounds.height == 568 ? 568 : 480
         let scene = GameScene(size: CGSize(width: screenWidth, height: screenHeight))
         // Configure the view.
-        let skView = self.view as SKView
+        let skView = self.view as! SKView
         skView.showsFPS = true
         skView.showsNodeCount = true
         

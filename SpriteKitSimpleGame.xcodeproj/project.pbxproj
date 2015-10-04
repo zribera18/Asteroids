@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9216E19C1A71E002009DF5EA /* restart.png in Resources */ = {isa = PBXBuildFile; fileRef = 9216E19B1A71E002009DF5EA /* restart.png */; };
 		928051C41A6C96DD0055B05A /* Spaceship.png in Resources */ = {isa = PBXBuildFile; fileRef = 928051C31A6C96DD0055B05A /* Spaceship.png */; };
 		928051C81A6C9AA80055B05A /* laser.png in Resources */ = {isa = PBXBuildFile; fileRef = 928051C71A6C9AA80055B05A /* laser.png */; };
 		928051CA1A6CDD9D0055B05A /* starsOrig.png in Resources */ = {isa = PBXBuildFile; fileRef = 928051C91A6CDD9D0055B05A /* starsOrig.png */; };
@@ -43,6 +44,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		9216E19B1A71E002009DF5EA /* restart.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = restart.png; path = ../restart.png; sourceTree = "<group>"; };
 		928051C31A6C96DD0055B05A /* Spaceship.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Spaceship.png; sourceTree = "<group>"; };
 		928051C71A6C9AA80055B05A /* laser.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = laser.png; sourceTree = "<group>"; };
 		928051C91A6CDD9D0055B05A /* starsOrig.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = starsOrig.png; sourceTree = "<group>"; };
@@ -123,6 +125,7 @@
 				92A2B1B31A6C955C00CEF395 /* asteroids3.png */,
 				92A2B1B41A6C955C00CEF395 /* asteroids2.png */,
 				92A2B1B51A6C955C00CEF395 /* asteroid1.png */,
+				9216E19B1A71E002009DF5EA /* restart.png */,
 				9281EE6D1A69D86100209598 /* AppDelegate.swift */,
 				9281EE711A69D86100209598 /* GameScene.swift */,
 				929BBCAC1A6C457100F85CE6 /* ControllerButton.swift */,
@@ -272,6 +275,7 @@
 				929BBCB41A6C45AA00F85CE6 /* button_dir_right.png in Resources */,
 				929BBCB21A6C45AA00F85CE6 /* button_dir_down.png in Resources */,
 				92A2B1B81A6C955C00CEF395 /* asteroid1.png in Resources */,
+				9216E19C1A71E002009DF5EA /* restart.png in Resources */,
 				9281EE971A69D8EE00209598 /* pew-pew-lei.caf in Resources */,
 				9281EE981A69D8EE00209598 /* sprites.atlas in Resources */,
 				928051CA1A6CDD9D0055B05A /* starsOrig.png in Resources */,

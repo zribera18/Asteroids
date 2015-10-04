@@ -92,6 +92,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     var monstersDestroyed = 0
     
+    let kScoreHudName = "scoreHud"
+    let kHealthHudName = "healthHud"
+    
+    var score = 0
+    
     override func didMoveToView(view: SKView) {
         super.didMoveToView(view)
 //        playBackgroundMusic("background-music-aac.caf")
@@ -116,6 +121,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         
         addChild(player)
+        setupHud()
         
         
         self.addChild(buttonDirUp)
@@ -214,6 +220,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         monster.physicsBody?.collisionBitMask = PhysicsCategory.None // 5
         monster.physicsBody?.restitution = 1.0 // 5
         monster.physicsBody?.friction = 0.0 // 5
+        monster.physicsBody?.usesPreciseCollisionDetection = true
         
     
         // Determine where to spawn the monster along the Y axis
@@ -241,12 +248,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 //        monster.runAction(SKAction.sequence([actionMove, loseAction, actionMoveDone]))
     }
     
-    override func touchesEnded(touches: NSSet, withEvent event: UIEvent) {
+    override func touchesEnded(touches: Set<NSObject>, withEvent event: UIEvent) {
         touchesEndedOrCancelled(touches, withEvent: event)
 //        runAction(SKAction.playSoundFileNamed("pew-pew-lei.caf", waitForCompletion: false))
         
         // 1 - Choose one of the touches to work with
-        let touch = touches.anyObject() as UITouch
+        let touch = touches.first as! UITouch
         let touchLocation = touch.locationInNode(self)
         
         // 2 - Set up initial location of projectile
@@ -352,6 +359,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 //                actionFadeIn,
 //                SKAction.runBlock(gameOver)
                 ]))
+//        monster.removeFromParent()
+        
+        let actionTexture1 = SKAction.setTexture(SKTexture(imageNamed: "explosion!"))
+        let actionMove1 = SKAction.scaleTo(2.5, duration: 0.75)
+        let actionMoveDone1 = SKAction.removeFromParent()
+        let actionFadeOut1 = SKAction.fadeOutWithDuration(NSTimeInterval(0.25))
+        
+        projectile.runAction(
+            SKAction.sequence([actionTexture1,
+                actionMove1,
+                actionFadeOut1,
+                actionMoveDone1
+                ]))
         
         runAction(SKAction.sequence([
             SKAction.waitForDuration(1.0),
@@ -400,17 +420,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         // 2
         if ((firstBody.categoryBitMask & PhysicsCategory.Monster != 0) &&
             (secondBody.categoryBitMask & PhysicsCategory.Projectile != 0)) {
-                projectileDidCollideWithMonster(firstBody.node as SKSpriteNode, monster: secondBody.node as SKSpriteNode)
+                projectileDidCollideWithMonster(firstBody.node as! SKSpriteNode, monster: secondBody.node as! SKSpriteNode)
         }
         
         if ((firstBody.categoryBitMask & PhysicsCategory.Monster != 0) &&
             (secondBody.categoryBitMask & PhysicsCategory.Player != 0)) {
-                shipDidCollideWithMonster(firstBody.node as SKSpriteNode, monster: secondBody.node as SKSpriteNode)
+                shipDidCollideWithMonster(firstBody.node as! SKSpriteNode, monster: secondBody.node as! SKSpriteNode)
         }
         
     }
     
-override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
+override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
         
         // if I press a button, I want to add it to the pressed buttons list
         for touch: AnyObject in touches {
@@ -449,6 +469,9 @@ override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
         let playerHeight = player.size.width
         background1.position = CGPointMake(background1.position.x - backgroundSpeed, background1.position.y)
         background2.position = CGPointMake(background2.position.x - backgroundSpeed, background2.position.y)
+        
+//        score = score + 1
+//        setupHud()
 
         if(background1.position.x < -background1.size.width) {
             background1.position = CGPointMake(background2.position.x + background1.size.width, background1.position.y)
@@ -491,7 +514,7 @@ override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
         
     }
     
-    override func touchesCancelled(touches: NSSet, withEvent event: UIEvent) {
+    override func touchesCancelled(touches: Set<NSObject>, withEvent event: UIEvent) {
         touchesEndedOrCancelled(touches, withEvent: event)
     }
     
@@ -525,7 +548,7 @@ override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
         }
     }
     
-    override func touchesMoved(touches: NSSet, withEvent event: UIEvent) {
+    override func touchesMoved(touches: Set<NSObject>, withEvent event: UIEvent) {
         // if I move off a button, I remove it from the list, if I move on a button, I add it to the list
         for touch: AnyObject in touches {
             let location = touch.locationInNode(self)
@@ -557,5 +580,35 @@ override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
             }
         }
     }
+
+    func setupHud() {
+        // 1
+        let scoreLabel = SKLabelNode(fontNamed: "Courier")
+        scoreLabel.name = kScoreHudName
+        scoreLabel.fontSize = 25
+        
+        // 2
+        scoreLabel.fontColor = SKColor.greenColor()
+        scoreLabel.text = NSString(format: "Score: %04u", score) as String
+        
+         3
+        println(size.height)
+        scoreLabel.position = CGPoint(x: frame.size.width / 2, y: size.height - (40 + scoreLabel.frame.size.height/2))
+        addChild(scoreLabel)
+        
+        // 4
+        let healthLabel = SKLabelNode(fontNamed: "Courier")
+        healthLabel.name = kHealthHudName
+        healthLabel.fontSize = 25
+        
+        // 5
+        healthLabel.fontColor = SKColor.redColor()
+        healthLabel.text = NSString(format: "Health: %.1f%%", 100.0) as String
+        
+        // 6
+        healthLabel.position = CGPoint(x: frame.size.width / 2, y: size.height - (80 + healthLabel.frame.size.height/2))
+        addChild(healthLabel)
+    }
+
 
 }
